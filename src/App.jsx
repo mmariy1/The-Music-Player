@@ -22,19 +22,31 @@ export default function App() {
         tracks: []
     });
 
+    useEffect(() => {
+        const hash = window.location.hash;
+        if (hash) {
+            const token = hash.split("&")[0].split("=")[1];
+            window.localStorage.setItem("spotify-token", token);
+            window.location.hash = ""; // Limpa o hash da URL
+            setToken(token);
+        }
+    }, []);
+
     // Verifica o token ao carregar
     useEffect(() => {
         const hash = window.location.hash;
-        let storedToken = window.localStorage.getItem("spotify-token");
-
-        // Limpa o hash após o login
+        const storedToken = window.localStorage.getItem("spotify-token");
+    
+        // Se não há token salvo, mas há hash na URL (após login)
         if (!storedToken && hash) {
-            storedToken = hash.split("&")[0].split("=")[1];
-            window.location.hash = "";
-            window.localStorage.setItem("spotify-token", storedToken);
+            const token = hash.split("&")[0].split("=")[1];
+            window.localStorage.setItem("spotify-token", token);
+            setToken(token);
+            // Redireciona de volta para a raiz sem o hash
+            window.history.replaceState({}, document.title, window.location.pathname);
+        } else {
+            setToken(storedToken || "");
         }
-
-        setToken(storedToken || "");
     }, []);
 
     // Função de pesquisa
