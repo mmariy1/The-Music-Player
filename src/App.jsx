@@ -7,8 +7,8 @@ import axios from 'axios';
 import PlaylistTracks from './PlaylistTracks'
 
 // Configurações do Spotify
-const CLIENT_ID = "db07bb8b31804a989bfba571159bf972";
-const REDIRECT_URI = "http://localhost:5173/callback";
+const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const SCOPE = "streaming user-modify-playback-state playlist-read-private playlist-read-collaborative";
 
