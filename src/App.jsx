@@ -37,15 +37,21 @@ export default function App() {
         const hash = window.location.hash;
         const storedToken = window.localStorage.getItem("spotify-token");
     
-        // Se não há token salvo, mas há hash na URL (após login)
-        if (!storedToken && hash) {
-            const token = hash.split("&")[0].split("=")[1];
-            window.localStorage.setItem("spotify-token", token);
-            setToken(token);
-            // Redireciona de volta para a raiz sem o hash
-            window.history.replaceState({}, document.title, window.location.pathname);
-        } else {
-            setToken(storedToken || "");
+        try {
+            if (!storedToken && hash) {
+                const token = hash.split("&")[0].split("=")[1];
+                if (!token) throw new Error("Token não encontrado no hash");
+                
+                window.localStorage.setItem("spotify-token", token);
+                setToken(token);
+                window.history.replaceState({}, document.title, window.location.pathname); // Limpa a URL
+            } else {
+                setToken(storedToken || "");
+            }
+        } catch (error) {
+            console.error("Erro ao processar token:", error);
+            window.localStorage.removeItem("spotify-token");
+            setToken("");
         }
     }, []);
 
