@@ -90,7 +90,7 @@ export default function App() {
                     <h1>The Music Player</h1>
                     <a
                         className="font"
-                        href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${encodeURIComponent(SCOPE)}&response_type=token`}
+                        href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=${encodeURIComponent(SCOPE)}&response_type=token`}
                     >
                         Login com Spotify
                     </a>
